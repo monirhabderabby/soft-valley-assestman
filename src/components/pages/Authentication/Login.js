@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../../Redux/features/auth/authApi";
 
 export const Login = () => {
     const { register, handleSubmit, reset } = useForm();
+    const navigate = useNavigate();
+
+    // Redux API
+    const [login, { data: response, isSuccess, isLoading }] = useLoginMutation();
 
     // function declaration
     function onSubmit(data) {
-        console.log(data);
+        login(data);
         reset();
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            const { data } = response || {};
+            const { token } = data || {};
+
+            localStorage.setItem("SVToken", token);
+            navigate("/");
+        }
+    }, [isSuccess, response, navigate]);
     return (
         <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
             <div className="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -56,7 +72,12 @@ export const Login = () => {
                                         </label>
                                     </div>
                                     <div className="relative">
-                                        <input className="bg-blue-500 text-white rounded-md px-2 py-1" type="submit" value="Submit" />
+                                        <input
+                                            className="bg-blue-500 text-white rounded-md px-2 py-1"
+                                            type="submit"
+                                            value="Submit"
+                                            disabled={isLoading}
+                                        />
                                     </div>
                                 </form>
                             </div>
