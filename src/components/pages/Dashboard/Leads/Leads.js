@@ -16,14 +16,8 @@ export const Leads = () => {
 
     useEffect(() => {
         if (isReadyFilter) {
-            fetchLead({
-                search: filterObject?.search,
-                lead_status_id: filterObject?.lead_status_id,
-                source_id: filterObject?.source_id,
-                user_id: filterObject?.user_id,
-                contacted_date_from: filterObject?.contacted_date_from,
-                contacted_date_to: filterObject?.contacted_date_to,
-            });
+            fetchLead(filterObject);
+            console.log(filterObject?.contacted_date_from);
 
             setTimeout(() => {
                 dispatch(setFalseReadyFilter());
