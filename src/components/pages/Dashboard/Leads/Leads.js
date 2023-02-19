@@ -43,11 +43,14 @@ export const Leads = () => {
     }, [fetchLead]);
 
     const columns = [
-        { field: "name", headerName: "Lead Name", width: 150 },
-        { field: "phone", headerName: "Phone", width: 150 },
-        { field: "followupDate", headerName: "Followup Date", width: 150 },
+        { field: "name", headerName: "Lead Name", width: 200 },
+        { field: "phone", headerName: "Phone", width: 200 },
+        { field: "followupDate", headerName: "Followup Date", width: 200 },
+        { field: "lastNote", headerName: "Last note", width: 200 },
         { field: "email", headerName: "Email", width: 220 },
-        { field: "preferedCountry", headerName: "Preferred Countries", width: 150 },
+        { field: "preferedCountry", headerName: "Preferred Countries", width: 200 },
+        { field: "status", headerName: "Status", width: 200 },
+        { field: "source", headerName: "Source", width: 200 },
     ];
 
     useEffect(() => {
@@ -57,9 +60,13 @@ export const Leads = () => {
                 name: row.name || "",
                 phone: row.phone || "",
                 followupDate: row.followup_date || "",
+                lastNote: row.lead_notes[0].note,
                 email: row.email || "",
                 preferedCountry: row.country.name,
+                status: row.lead_status.name,
+                source: row.source.name,
             }));
+            console.log(tableData);
 
             setRows(result);
         }
