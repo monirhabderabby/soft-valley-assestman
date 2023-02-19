@@ -1,6 +1,7 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useFetchLeadMutation } from "../../../../Redux/features/leads/leadsApi";
+import { FilterContainer } from "./FilterContainer";
 
 export const Leads = () => {
     const [rows, setRows] = useState([]);
@@ -42,6 +43,7 @@ export const Leads = () => {
 
     return (
         <div>
+            <FilterContainer />
             <DataGrid autoHeight rows={rows} columns={columns} />
         </div>
     );
