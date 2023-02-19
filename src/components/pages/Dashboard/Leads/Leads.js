@@ -19,10 +19,10 @@ export const Leads = () => {
             fetchLead({
                 search: filterObject?.search,
                 lead_status_id: filterObject?.lead_status_id,
-                source_id: [],
-                user_id: [],
-                contacted_date_from: [],
-                contacted_date_to: [],
+                source_id: filterObject?.source_id,
+                user_id: filterObject?.user_id,
+                contacted_date_from: filterObject?.contacted_date_from,
+                contacted_date_to: filterObject?.contacted_date_to,
             });
 
             setTimeout(() => {
@@ -60,13 +60,12 @@ export const Leads = () => {
                 name: row.name || "",
                 phone: row.phone || "",
                 followupDate: row.followup_date || "",
-                lastNote: row.lead_notes[0].note,
+                lastNote: row.lead_notes[0]?.note,
                 email: row.email || "",
                 preferedCountry: row.country.name,
                 status: row.lead_status.name,
                 source: row.source.name,
             }));
-            console.log(tableData);
 
             setRows(result);
         }

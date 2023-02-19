@@ -21,7 +21,9 @@ export const FilterControllerButtons = () => {
             isFilterStateCarrySomething?.search !== "" ||
             isFilterStateCarrySomething?.contacted_date_from !== null ||
             isFilterStateCarrySomething?.contacted_date_to !== null ||
-            isFilterStateCarrySomething?.lead_status_id?.length !== 0
+            isFilterStateCarrySomething?.lead_status_id?.length !== 0 ||
+            isFilterStateCarrySomething?.source_id?.length !== 0 ||
+            isFilterStateCarrySomething?.user_id?.length !== 0
         ) {
             setFilterIsOn(true);
         } else {

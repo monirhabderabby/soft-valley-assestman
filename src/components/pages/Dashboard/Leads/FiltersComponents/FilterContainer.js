@@ -1,5 +1,7 @@
 import { Box } from "@mui/system";
 import React from "react";
+import { AssigneesSelector } from "../../../../shared/Selectors/AssigneesSelector";
+import { SourcesSelector } from "../../../../shared/Selectors/SourcesSelector";
 import { StatusSelector } from "../../../../shared/Selectors/StatusSelector";
 import ContactedDatePicker from "./ContactedDatePicker";
 import { FilterControllerButtons } from "./FilterControllerButtons";
@@ -13,13 +15,15 @@ export const FilterContainer = () => {
             <Box
                 sx={{
                     width: "100%",
-                    py: "10px",
+                    py: "15px",
                     display: "flex",
-                    columnGap: "20px",
+                    columnGap: "25px",
                     justifyContent: "end",
                 }}
             >
                 <StatusSelector />
+                <SourcesSelector />
+                <AssigneesSelector />
                 <ContactedDatePicker />
                 <FilterControllerButtons />
             </Box>

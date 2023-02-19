@@ -21,7 +21,25 @@ export const leadsApi = apiSlice.injectEndpoints({
                 },
             }),
         }),
+        fetchAssignee: builder.query({
+            query: () => ({
+                url: "/api/admin/base/assignee",
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("SVToken")}`,
+                },
+            }),
+        }),
+        fetchSources: builder.query({
+            query: () => ({
+                url: "/api/admin/base/source",
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("SVToken")}`,
+                },
+            }),
+        }),
     }),
 });
 
-export const { useFetchLeadMutation, useFetchStatusQuery } = leadsApi;
+export const { useFetchLeadMutation, useFetchStatusQuery, useFetchAssigneeQuery, useFetchSourcesQuery } = leadsApi;
