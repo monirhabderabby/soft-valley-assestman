@@ -2,16 +2,17 @@ import apiSlice from "../../api/apiSlice";
 
 export const leadsApi = apiSlice.injectEndpoints({
     endpoints: builder => ({
-        getLeads: builder.query({
-            query: () => ({
+        fetchLead: builder.mutation({
+            query: data => ({
                 url: "/api/admin/lead/list",
-                method: "GET",
+                method: "POST",
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("SVToken")}`,
                 },
+                body: data,
             }),
         }),
     }),
 });
 
-export const { useGetLeadsQuery } = leadsApi;
+export const { useFetchLeadMutation } = leadsApi;
