@@ -19,8 +19,8 @@ export const FilterControllerButtons = () => {
     useEffect(() => {
         if (
             isFilterStateCarrySomething?.search !== "" ||
-            isFilterStateCarrySomething?.contacted_date_from !== null ||
-            isFilterStateCarrySomething?.contacted_date_to !== null ||
+            isFilterStateCarrySomething?.contacted_date_from !== "" ||
+            isFilterStateCarrySomething?.contacted_date_to !== "" ||
             isFilterStateCarrySomething?.lead_status_id?.length !== 0 ||
             isFilterStateCarrySomething?.source_id?.length !== 0 ||
             isFilterStateCarrySomething?.user_id?.length !== 0
