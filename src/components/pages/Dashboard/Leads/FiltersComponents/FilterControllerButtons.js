@@ -20,7 +20,8 @@ export const FilterControllerButtons = () => {
         if (
             isFilterStateCarrySomething?.search !== "" ||
             isFilterStateCarrySomething?.contacted_date_from !== null ||
-            isFilterStateCarrySomething?.contacted_date_to !== null
+            isFilterStateCarrySomething?.contacted_date_to !== null ||
+            isFilterStateCarrySomething?.lead_status_id?.length !== 0
         ) {
             setFilterIsOn(true);
         } else {

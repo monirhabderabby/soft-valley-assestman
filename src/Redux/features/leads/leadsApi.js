@@ -12,7 +12,16 @@ export const leadsApi = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        fetchStatus: builder.query({
+            query: () => ({
+                url: `/api/admin/base/lead-status`,
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("SVToken")}`,
+                },
+            }),
+        }),
     }),
 });
 
-export const { useFetchLeadMutation } = leadsApi;
+export const { useFetchLeadMutation, useFetchStatusQuery } = leadsApi;

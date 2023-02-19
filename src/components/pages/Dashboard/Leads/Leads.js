@@ -10,12 +10,15 @@ export const Leads = () => {
     const dispatch = useDispatch();
     const leadsData = useSelector(state => state?.leads);
     const { tableData, filterObject, isReadyFilter } = leadsData || {};
-    const [fetchLead, { data: leads, isSuccess, isLoading }] = useFetchLeadMutation();
+
+    // Redux API
+    const [fetchLead, { data: leads, isSuccess }] = useFetchLeadMutation();
+
     useEffect(() => {
         if (isReadyFilter) {
             fetchLead({
                 search: filterObject?.search,
-                lead_status_id: [],
+                lead_status_id: filterObject?.lead_status_id,
                 source_id: [],
                 user_id: [],
                 contacted_date_from: [],
@@ -26,7 +29,18 @@ export const Leads = () => {
                 dispatch(setFalseReadyFilter());
             }, 1000);
         }
-    }, [fetchLead, isReadyFilter]);
+    }, [fetchLead, isReadyFilter, dispatch]);
+
+    useEffect(() => {
+        fetchLead({
+            search: "",
+            lead_status_id: [],
+            source_id: [],
+            user_id: [],
+            contacted_date_from: [],
+            contacted_date_to: [],
+        });
+    }, [fetchLead]);
 
     const columns = [
         { field: "name", headerName: "Lead Name", width: 150 },
