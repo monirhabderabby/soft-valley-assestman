@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     filterObject: {
         search: "",
-        contacted_date_from: "",
-        contacted_date_to: "",
+        contacted_date_from: null,
+        contacted_date_to: null,
     },
     tableData: [],
     isReadyFilter: false,
@@ -26,11 +26,17 @@ const leadSlice = createSlice({
         },
         resetFilter: (state = initialState, action) => {
             state.filterObject.search = "";
-            state.filterObject.contacted_date_from = "";
-            state.filterObject.contacted_date_to = "";
+            state.filterObject.contacted_date_from = null;
+            state.filterObject.contacted_date_to = null;
+        },
+        fetchFilter: (state = initialState, action) => {
+            state.isReadyFilter = true;
+        },
+        setFalseReadyFilter: (state = initialState, action) => {
+            state.isReadyFilter = false;
         },
     },
 });
 
-export const { setSearch, setTableData, setContactedDate, resetFilter } = leadSlice.actions;
+export const { setSearch, setTableData, setContactedDate, resetFilter, fetchFilter, setFalseReadyFilter } = leadSlice.actions;
 export default leadSlice.reducer;

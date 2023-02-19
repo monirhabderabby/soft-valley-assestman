@@ -8,18 +8,19 @@ import { FilterContainer } from "./FiltersComponents/FilterContainer";
 export const Leads = () => {
     const [rows, setRows] = useState([]);
     const dispatch = useDispatch();
+    const leadsData = useSelector(state => state?.leads);
+    const { tableData, filterObject } = leadsData || {};
     const [fetchLead, { data: leads, isSuccess }] = useFetchLeadMutation();
     useEffect(() => {
         fetchLead({
-            search: "",
+            search: filterObject?.search,
             lead_status_id: [],
             source_id: [],
             user_id: [],
             contacted_date_from: [],
             contacted_date_to: [],
         });
-    }, [fetchLead]);
-    const tableData = useSelector(state => state?.leads?.tableData);
+    }, [fetchLead, filterObject?.search]);
 
     const columns = [
         { field: "name", headerName: "Lead Name", width: 150 },

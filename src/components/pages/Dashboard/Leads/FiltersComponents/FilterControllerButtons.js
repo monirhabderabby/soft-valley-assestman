@@ -1,7 +1,7 @@
 import Button from "@mui/material/Button";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetFilter } from "../../../../../Redux/features/leads/leadSlice";
+import { fetchFilter, resetFilter } from "../../../../../Redux/features/leads/leadSlice";
 
 export const FilterControllerButtons = () => {
     const [filterisOn, setFilterIsOn] = useState(false);
@@ -12,11 +12,15 @@ export const FilterControllerButtons = () => {
         dispatch(resetFilter());
     };
 
+    const handleFilter = () => {
+        dispatch(fetchFilter());
+    };
+
     useEffect(() => {
         if (
             isFilterStateCarrySomething?.search !== "" ||
-            isFilterStateCarrySomething?.contacted_date_from !== "" ||
-            isFilterStateCarrySomething?.contacted_date_to !== ""
+            isFilterStateCarrySomething?.contacted_date_from !== null ||
+            isFilterStateCarrySomething?.contacted_date_to !== null
         ) {
             setFilterIsOn(true);
         } else {
@@ -34,6 +38,7 @@ export const FilterControllerButtons = () => {
                     boxShadow: "none",
                 }}
                 disabled={!filterisOn}
+                onClick={handleFilter}
             >
                 Filter
             </Button>
