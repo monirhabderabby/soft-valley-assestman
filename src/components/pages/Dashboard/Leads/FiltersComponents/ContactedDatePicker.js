@@ -1,43 +1,28 @@
-import * as React from "react";
-import { useEffect } from "react";
-
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { LocalizationProvider } from "@mui/x-date-pickers-pro";
-import { AdapterDayjs } from "@mui/x-date-pickers-pro/AdapterDayjs";
-import { DateRangePicker } from "@mui/x-date-pickers-pro/DateRangePicker";
-import moment from "moment";
-import { useDispatch } from "react-redux";
+import { DatePicker } from "antd";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { setContactedDate } from "../../../../../Redux/features/leads/leadSlice";
 
+const styles = { width: 260, display: "block", marginBottom: 10 };
+
 export default function ContactedDatePicker() {
-    const [value, setValue] = React.useState([null, null]);
+    const [dateRange, setDateRange] = useState([null, null]);
     const dispatch = useDispatch();
-
-    console.log(moment(value[0]?.$d).format());
-
+    const filterObject = useSelector(state => state.leads?.filterObject);
+    const { contacted_date_from, contacted_date_to } = filterObject || {};
     useEffect(() => {
-        if (value !== null) {
-            dispatch(setContactedDate([moment(value[0]?.$d).format(), moment(value[1]?.$d).format()]));
+        if (dateRange[0] !== null && dateRange[1] !== null) {
+            dispatch(setContactedDate(dateRange));
         }
-    }, [value, dispatch]);
+    }, [dateRange, dispatch]);
 
     return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} localeText={{ start: "From", end: "To" }}>
-            <DateRangePicker
-                size="small"
-                value={value}
-                onChange={newValue => {
-                    setValue(newValue);
-                }}
-                renderInput={(startProps, endProps) => (
-                    <React.Fragment>
-                        <TextField {...startProps} size="small" />
-                        <Box sx={{ mx: 2 }}> to </Box>
-                        <TextField {...endProps} size="small" />
-                    </React.Fragment>
-                )}
+        <>
+            <DatePicker.RangePicker
+                placeholder={["Contact start", "Contact end"]}
+                value={[contacted_date_from, contacted_date_to]}
+                onChange={setDateRange}
             />
-        </LocalizationProvider>
+        </>
     );
 }

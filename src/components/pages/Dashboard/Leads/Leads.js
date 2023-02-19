@@ -2,25 +2,31 @@ import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFetchLeadMutation } from "../../../../Redux/features/leads/leadsApi";
-import { setTableData } from "../../../../Redux/features/leads/leadSlice";
+import { setFalseReadyFilter, setTableData } from "../../../../Redux/features/leads/leadSlice";
 import { FilterContainer } from "./FiltersComponents/FilterContainer";
 
 export const Leads = () => {
     const [rows, setRows] = useState([]);
     const dispatch = useDispatch();
     const leadsData = useSelector(state => state?.leads);
-    const { tableData, filterObject } = leadsData || {};
-    const [fetchLead, { data: leads, isSuccess }] = useFetchLeadMutation();
+    const { tableData, filterObject, isReadyFilter } = leadsData || {};
+    const [fetchLead, { data: leads, isSuccess, isLoading }] = useFetchLeadMutation();
     useEffect(() => {
-        fetchLead({
-            search: filterObject?.search,
-            lead_status_id: [],
-            source_id: [],
-            user_id: [],
-            contacted_date_from: [],
-            contacted_date_to: [],
-        });
-    }, [fetchLead, filterObject?.search]);
+        if (isReadyFilter) {
+            fetchLead({
+                search: filterObject?.search,
+                lead_status_id: [],
+                source_id: [],
+                user_id: [],
+                contacted_date_from: [],
+                contacted_date_to: [],
+            });
+
+            setTimeout(() => {
+                dispatch(setFalseReadyFilter());
+            }, 1000);
+        }
+    }, [fetchLead, isReadyFilter]);
 
     const columns = [
         { field: "name", headerName: "Lead Name", width: 150 },
@@ -55,6 +61,7 @@ export const Leads = () => {
     return (
         <div>
             <FilterContainer />
+
             <DataGrid autoHeight rows={rows} columns={columns} />
         </div>
     );
