@@ -1,11 +1,14 @@
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useFetchLeadMutation } from "../../../../Redux/features/leads/leadsApi";
-import { FilterContainer } from "./FilterContainer";
+import { setTableData } from "../../../../Redux/features/leads/leadSlice";
+import { FilterContainer } from "./FiltersComponents/FilterContainer";
 
 export const Leads = () => {
     const [rows, setRows] = useState([]);
-    const [fetchLead, { data: leads }] = useFetchLeadMutation();
+    const dispatch = useDispatch();
+    const [fetchLead, { data: leads, isSuccess }] = useFetchLeadMutation();
     useEffect(() => {
         fetchLead({
             search: "",
@@ -16,7 +19,7 @@ export const Leads = () => {
             contacted_date_to: [],
         });
     }, [fetchLead]);
-    const tableData = leads?.data?.data;
+    const tableData = useSelector(state => state?.leads?.tableData);
 
     const columns = [
         { field: "name", headerName: "Lead Name", width: 150 },
@@ -40,6 +43,13 @@ export const Leads = () => {
             setRows(result);
         }
     }, [tableData]);
+
+    useEffect(() => {
+        if (isSuccess) {
+            const tableData = leads?.data?.data;
+            dispatch(setTableData(tableData));
+        }
+    }, [isSuccess, dispatch, leads?.data?.data]);
 
     return (
         <div>
