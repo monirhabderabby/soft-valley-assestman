@@ -11,6 +11,7 @@ const initialState = {
     },
     tableData: [],
     isReadyFilter: false,
+    totalPage: 1,
 };
 
 const leadSlice = createSlice({
@@ -51,9 +52,22 @@ const leadSlice = createSlice({
         setFalseReadyFilter: (state = initialState, action) => {
             state.isReadyFilter = false;
         },
+        setTotalPage: (state = initialState, action) => {
+            state.totalPage = action.payload;
+        },
     },
 });
 
-export const { setSearch, setTableData, setContactedDate, resetFilter, fetchFilter, setFalseReadyFilter, setStatus, setSources, setAssignees } =
-    leadSlice.actions;
+export const {
+    setSearch,
+    setTableData,
+    setContactedDate,
+    resetFilter,
+    fetchFilter,
+    setFalseReadyFilter,
+    setStatus,
+    setSources,
+    setAssignees,
+    setTotalPage,
+} = leadSlice.actions;
 export default leadSlice.reducer;

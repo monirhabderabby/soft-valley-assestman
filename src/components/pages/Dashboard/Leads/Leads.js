@@ -1,37 +1,51 @@
+import { Pagination } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFetchLeadMutation } from "../../../../Redux/features/leads/leadsApi";
-import { setFalseReadyFilter, setTableData } from "../../../../Redux/features/leads/leadSlice";
+import { setFalseReadyFilter, setTableData, setTotalPage } from "../../../../Redux/features/leads/leadSlice";
 import { FilterContainer } from "./FiltersComponents/FilterContainer";
 
 export const Leads = () => {
+    const [currentPage, setCurrentPage] = useState(1);
     const [rows, setRows] = useState([]);
     const dispatch = useDispatch();
     const leadsData = useSelector(state => state?.leads);
-    const { tableData, filterObject, isReadyFilter } = leadsData || {};
+    const { tableData, filterObject, isReadyFilter, totalPage } = leadsData || {};
 
     // Redux API
     const [fetchLead, { data: leads, isSuccess }] = useFetchLeadMutation();
 
     useEffect(() => {
-        if (isReadyFilter) {
-            fetchLead(filterObject);
+        if (leads?.data?.total > 10) {
+            dispatch(setTotalPage(Math.ceil(leads?.data?.total / 10)));
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (isReadyFilter || currentPage) {
+            fetchLead({
+                data: filterObject,
+                page: currentPage,
+            });
 
             setTimeout(() => {
                 dispatch(setFalseReadyFilter());
             }, 1000);
         }
-    }, [fetchLead, isReadyFilter, dispatch]);
+    }, [fetchLead, isReadyFilter, dispatch, currentPage]);
 
     useEffect(() => {
         fetchLead({
-            search: "",
-            lead_status_id: [],
-            source_id: [],
-            user_id: [],
-            contacted_date_from: [],
-            contacted_date_to: [],
+            data: {
+                search: "",
+                lead_status_id: [],
+                source_id: [],
+                user_id: [],
+                contacted_date_from: [],
+                contacted_date_to: [],
+            },
+            page: 1,
         });
     }, [fetchLead]);
 
@@ -75,7 +89,10 @@ export const Leads = () => {
         <div>
             <FilterContainer />
 
-            <DataGrid autoHeight rows={rows} columns={columns} />
+            <DataGrid autoHeight rows={rows} columns={columns} hideFooterPagination pageSize={10} />
+            <div className="my-[20px] flex justify-end">
+                <Pagination count={totalPage} variant="outlined" shape="rounded" onChange={(e, newPage) => setCurrentPage(newPage)} />
+            </div>
         </div>
     );
 };

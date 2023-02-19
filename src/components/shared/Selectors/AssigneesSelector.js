@@ -17,7 +17,6 @@ export const AssigneesSelector = () => {
     const handleChange = e => {
         const value = e.target.value;
         dispatch(setAssignees(value));
-        console.log(value);
     };
 
     useEffect(() => {
