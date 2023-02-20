@@ -19,6 +19,7 @@ export const FilterContainer = () => {
                     display: "flex",
                     columnGap: "25px",
                     justifyContent: "end",
+                    alignItems: "center",
                 }}
             >
                 <StatusSelector />

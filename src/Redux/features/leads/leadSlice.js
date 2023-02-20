@@ -35,7 +35,7 @@ const leadSlice = createSlice({
             state.filterObject.source_id = [action.payload];
         },
         setAssignees: (state = initialState, action) => {
-            state.filterObject.user_id = [action.payload];
+            state.filterObject.user_id = action.payload;
         },
         resetFilter: (state = initialState, action) => {
             state.filterObject.search = "";

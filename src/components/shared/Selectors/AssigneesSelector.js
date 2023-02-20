@@ -1,44 +1,69 @@
+import Checkbox from "@mui/material/Checkbox";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
+import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import Select from "@mui/material/Select";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFetchAssigneeQuery } from "../../../Redux/features/leads/leadsApi";
 import { setAssignees } from "../../../Redux/features/leads/leadSlice";
+import nameJoinerFromArrayofID from "../../../util/nameJoinerFromArrayodID";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
 
 export const AssigneesSelector = () => {
-    const [value, setValue] = useState([0]);
+    const values = useSelector(state => state.leads?.filterObject?.user_id);
     const dispatch = useDispatch();
-    const assigness = useSelector(state => state.leads?.filterObject?.user_id);
-    const { data } = useFetchAssigneeQuery();
-    const { data: assignessesData } = data || {};
 
-    const handleChange = e => {
-        const value = e.target.value;
-        dispatch(setAssignees(value));
+    const { data } = useFetchAssigneeQuery();
+    const { data: assigneesData } = data || {};
+
+    const handleChange = event => {
+        const {
+            target: { value },
+        } = event;
+
+        const flattemValue = value.flat(6);
+
+        dispatch(setAssignees(typeof flattemValue === "string" ? flattemValue.split(",") : flattemValue));
     };
 
-    useEffect(() => {
-        if (assigness?.length !== 0) {
-            setValue(assigness);
-        } else {
-            setValue([0]);
-        }
-    }, [assigness]);
     return (
-        <FormControl sx={{ minWidth: 200 }} size="small">
-            <InputLabel id="demo-select-small">assignesses</InputLabel>
-            <Select labelId="demo-select-small" id="demo-select-small" value={value[0]} label="assignesses" onChange={handleChange}>
-                <MenuItem value={0}>Select assigness</MenuItem>
-                {assignessesData?.map(assigness => {
-                    return (
-                        <MenuItem key={assigness?.id} value={assigness?.id} name={assigness?.name}>
-                            {assigness?.name}
+        <div>
+            <FormControl sx={{ width: 300 }}>
+                <InputLabel id="demo-multiple-checkbox-label">Assignees</InputLabel>
+                <Select
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    multiple
+                    value={values}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="Assignees" />}
+                    renderValue={selected => {
+                        return nameJoinerFromArrayofID(selected, assigneesData);
+                    }}
+                    MenuProps={MenuProps}
+                    size="small"
+                >
+                    {assigneesData?.map(name => (
+                        <MenuItem key={name.id} value={name.id} size="small">
+                            <Checkbox checked={values.indexOf(name.id) > -1} />
+                            <ListItemText primary={name.name} />
                         </MenuItem>
-                    );
-                })}
-            </Select>
-        </FormControl>
+                    ))}
+                </Select>
+            </FormControl>
+        </div>
     );
 };
