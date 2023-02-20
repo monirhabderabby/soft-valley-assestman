@@ -89,8 +89,6 @@ export const Leads = () => {
                 source: row.source.name,
             }));
 
-            console.log(tableData);
-
             setRows(result);
         }
     }, [tableData]);
