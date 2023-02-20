@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setContactedDate } from "../../../../../Redux/features/leads/leadSlice";
 
+const { RangePicker } = DatePicker;
+
 export default function ContactedDatePicker() {
     const [dateRange, setDateRange] = useState([null, null]);
     const dispatch = useDispatch();
@@ -16,10 +18,14 @@ export default function ContactedDatePicker() {
 
     return (
         <>
-            <DatePicker.RangePicker
+            <RangePicker
+                size={12}
                 placeholder={["Contact start", "Contact end"]}
                 value={[contacted_date_from, contacted_date_to]}
                 onChange={setDateRange}
+                style={{
+                    padding: "9px",
+                }}
             />
         </>
     );

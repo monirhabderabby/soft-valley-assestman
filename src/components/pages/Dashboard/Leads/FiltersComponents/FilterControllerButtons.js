@@ -39,6 +39,10 @@ export const FilterControllerButtons = () => {
                 sx={{
                     px: "30px",
                     boxShadow: "none",
+                    height: "41px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 }}
                 disabled={!filterisOn}
                 onClick={handleFilter}
@@ -51,6 +55,10 @@ export const FilterControllerButtons = () => {
                 sx={{
                     px: "30px",
                     boxShadow: "none",
+                    height: "41px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                 }}
                 disabled={!filterisOn}
                 onClick={handleReset}
