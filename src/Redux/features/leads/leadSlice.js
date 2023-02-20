@@ -29,10 +29,10 @@ const leadSlice = createSlice({
             state.filterObject.contacted_date_to = action.payload[1];
         },
         setStatus: (state = initialState, action) => {
-            state.filterObject.lead_status_id = [action.payload];
+            state.filterObject.lead_status_id = action.payload;
         },
         setSources: (state = initialState, action) => {
-            state.filterObject.source_id = [action.payload];
+            state.filterObject.source_id = action.payload;
         },
         setAssignees: (state = initialState, action) => {
             state.filterObject.user_id = action.payload;
