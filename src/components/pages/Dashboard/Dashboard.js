@@ -1,3 +1,8 @@
+// Configuration
+import * as React from "react";
+import { Outlet, useNavigate } from "react-router-dom";
+
+// Third party packages
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -6,6 +11,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import MuiAppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
@@ -18,8 +24,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { styled, useTheme } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
-import { Outlet, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -89,12 +93,18 @@ export default function Dashboard() {
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
 
+    // function declaration
     const handleDrawerOpen = () => {
         setOpen(true);
     };
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("SVToken");
+        window.location.reload();
     };
 
     return (
@@ -111,9 +121,32 @@ export default function Dashboard() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Soft Valley
-                    </Typography>
+                    <Box
+                        sx={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Typography variant="h6" noWrap component="div">
+                            Soft Valley
+                        </Typography>
+                        <Button
+                            size="small"
+                            sx={{
+                                color: "#FFFFFF",
+                                fontSize: "18px",
+                                padding: "6px",
+                                "&:hover": {
+                                    bgcolor: "#398de6",
+                                },
+                            }}
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </Button>
+                    </Box>
                 </Toolbar>
             </AppBar>
             <Drawer

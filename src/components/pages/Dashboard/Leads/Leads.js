@@ -17,17 +17,17 @@ export const Leads = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [rows, setRows] = useState([]);
     const dispatch = useDispatch();
+
+    // Redux state and APIS
     const leadsData = useSelector(state => state?.leads);
     const { tableData, filterObject, isReadyFilter, totalPage } = leadsData || {};
-
-    // Redux API
     const [fetchLead, { data: leads, isSuccess }] = useFetchLeadMutation();
 
     useEffect(() => {
         if (leads?.data?.total > 10) {
             dispatch(setTotalPage(Math.ceil(leads?.data?.total / 10)));
         }
-    }, [dispatch]);
+    }, [dispatch, leads?.data?.total]);
 
     useEffect(() => {
         if (isReadyFilter || currentPage) {

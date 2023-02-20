@@ -73,9 +73,9 @@ export const Login = () => {
                                     </div>
                                     <div className="relative">
                                         <input
-                                            className="bg-blue-500 text-white rounded-md px-2 py-1"
+                                            className="bg-blue-500 text-white rounded-md px-2 py-1 duration-300"
                                             type="submit"
-                                            value="Submit"
+                                            value={isLoading ? "Loading..." : "Login"}
                                             disabled={isLoading}
                                         />
                                     </div>
