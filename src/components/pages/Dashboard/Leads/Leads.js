@@ -1,12 +1,19 @@
+// Configuration
+import React, { useEffect, useState } from "react";
+
+// Third party libraries
 import { Pagination } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+// Components
 import { useFetchLeadMutation } from "../../../../Redux/features/leads/leadsApi";
 import { setFalseReadyFilter, setTableData, setTotalPage } from "../../../../Redux/features/leads/leadSlice";
 import { FilterContainer } from "./FiltersComponents/FilterContainer";
+import { GroupAvatar } from "./FiltersComponents/GroupAvatar";
 
 export const Leads = () => {
+    // Top level state
     const [currentPage, setCurrentPage] = useState(1);
     const [rows, setRows] = useState([]);
     const dispatch = useDispatch();
@@ -54,9 +61,16 @@ export const Leads = () => {
         { field: "phone", headerName: "Phone", width: 200 },
         { field: "followupDate", headerName: "Followup Date", width: 200 },
         { field: "lastNote", headerName: "Last note", width: 200 },
+        {
+            field: "assigned",
+            headerName: "Assigned",
+            width: 200,
+            renderCell: params => <GroupAvatar photos={params.row.assigned} />,
+        },
         { field: "email", headerName: "Email", width: 220 },
         { field: "preferedCountry", headerName: "Preferred Countries", width: 200 },
         { field: "status", headerName: "Status", width: 200 },
+
         { field: "source", headerName: "Source", width: 200 },
     ];
 
@@ -68,11 +82,14 @@ export const Leads = () => {
                 phone: row.phone || "",
                 followupDate: row.followup_date || "",
                 lastNote: row.lead_notes[0]?.note,
+                assigned: row.lead_assignees?.map(item => item.image),
                 email: row.email || "",
                 preferedCountry: row.country.name,
                 status: row.lead_status.name,
                 source: row.source.name,
             }));
+
+            console.log(tableData);
 
             setRows(result);
         }

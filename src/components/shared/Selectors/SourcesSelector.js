@@ -28,7 +28,6 @@ export const SourcesSelector = () => {
 
     const { data } = useFetchSourcesQuery();
     const { data: sourcesData } = data || {};
-    console.log(sourcesData);
 
     const handleChange = event => {
         const {

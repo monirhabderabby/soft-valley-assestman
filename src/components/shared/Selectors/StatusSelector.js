@@ -28,7 +28,6 @@ export const StatusSelector = () => {
 
     const { data } = useFetchStatusQuery();
     const { data: statusData } = data || {};
-    console.log(statusData);
 
     const handleChange = event => {
         const {
